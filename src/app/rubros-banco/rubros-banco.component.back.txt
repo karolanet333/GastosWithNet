@@ -1,0 +1,58 @@
+import { Observable } from 'rxjs/Rx';
+import { RubroBancoService } from './../services/rubro-banco.service';
+import { RubroBanco } from './../model/rubro-banco';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+declare var  $: any;
+
+@Component({
+  selector: 'app-rubros-banco',
+  templateUrl: './rubros-banco.component.html',
+  styleUrls: ['./rubros-banco.component.css'],
+  providers: [RubroBancoService]
+})
+export class RubrosBancoComponent implements OnInit, OnDestroy {
+
+  rubrosBanco$: Observable<Array<RubroBanco>>;
+
+  //signalR connection reference
+  private connection: SignalR;
+
+  //signalR proxy reference
+  private proxy: SignalR.Hub.Proxy;
+
+  constructor(private rubroBancoService: RubroBancoService) {
+        
+  }
+
+  ngOnInit() {
+    this.getAll();
+    this.listenToHub();
+  }
+
+  getAll(){
+    this.rubrosBanco$ = this.rubroBancoService.getAll();
+  }
+
+  listenToHub(){
+
+    //initialize connection
+    this.connection = $.connection;
+
+    //to create proxy give your hub class name as parameter. IMPORTANT: notice that I followed camel casing in giving class name
+    this.proxy = $.connection.hub.createHubProxy('rubrosBancoHub');
+
+    //define a callback method for proxy
+    this.proxy.on('rubrosBancoListChanged', () => this.rubrosBancoListChanged());
+
+    this.connection.hub.start();
+  }
+
+  private rubrosBancoListChanged(){
+    this.getAll();
+  }
+
+  ngOnDestroy(){
+    this.connection.hub.stop;
+  }
+
+}

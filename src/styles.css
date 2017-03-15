@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    color: #777
+}
+
+.hor-space{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+td.app-xs{
+    max-width: 70px;
+    width: 70px;
+    text-align: right;
+}
+
+.edit-button:parent{
+    width:70px;
+}
+
+.table>thead:first-child>tr:first-child>th,
+.table-bordered>tbody>tr>td{
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+

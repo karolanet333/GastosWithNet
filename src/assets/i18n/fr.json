@@ -1,0 +1,14 @@
+{
+  "HOME": {
+    "TITLE": "Bonjour Angular avec ngx-translate !",
+    "SELECT": "Changer la langue"
+  },
+    "RUBROS_BANCO": {
+    "TITLE": "Bank Items"
+  },
+  "GENERAL": {
+    "ADD": "Add",
+    "EDIT": "Edit",
+    "DELETE": "Delete"
+  }
+}

@@ -1,0 +1,24 @@
+
+<h3>
+  <button class="btn btn-success btn-xs hor-space" [routerLink]="['add']">
+    <span class="glyphicon glyphicon-plus"></span>
+  </button> 
+  {{ 'RUBROS_BANCO.TITLE' | translate }}
+</h3>
+
+
+<table class="table">
+  <tr *ngFor="let rubroBanco of rubrosBanco$ | async">
+    <td>{{rubroBanco.Rubro}}</td>
+    <td class="app-xs"><button class="btn btn-warning btn-xs">{{'GENERAL.EDIT' | translate}}</button></td>
+    <td class="app-xs"><button class="btn btn-danger btn-xs">{{'GENERAL.DELETE' | translate}}</button></td>
+  </tr>
+</table>
+
+<div *ngIf="rubrosBanco">
+  <app-ng2-table-demo [columns]="columns" [data]="rubrosBanco" controllerPath="rubros-banco"></app-ng2-table-demo>
+</div>
+
+
+<router-outlet></router-outlet>
+
