@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, OnChanges, Input, Output } from '@angular/core';
 import { TableData } from './table-data';
+import * as _ from "lodash";
 declare var $:any;
 
 @Component({
@@ -14,6 +15,8 @@ export class Ng2TableDemoComponent implements OnInit, OnChanges {
   @Input() columns:Array<any> = null;
   @Input() data:Array<any> = null;//TableData;
   @Input() controllerPath:string = null;
+  @Input() dataOrig:Array<any> = null;
+  @Input() filterAllColumns:boolean = null;
   public page:number = 1;
   public itemsPerPage:number = 10;
   public maxSize:number = 5;
@@ -23,7 +26,7 @@ export class Ng2TableDemoComponent implements OnInit, OnChanges {
   public config:any = {
     paging: true,
     sorting: {columns: this.columns},
-    filtering: {filterString: ''},
+    //filtering: {filterString: ''},
     className: ['table-striped', 'table-bordered']
   };
 
@@ -52,9 +55,12 @@ export class Ng2TableDemoComponent implements OnInit, OnChanges {
     }
     this.length = this.data.length;
 
-    
+    if (this.filterAllColumns == null){
+      this.filterAllColumns = true;
+    }
 
     this.onChangeTable(this.config);
+
   }
 
   public ngOnChanges(){
@@ -167,16 +173,39 @@ export class Ng2TableDemoComponent implements OnInit, OnChanges {
       $('.id-column').parent().css('width', "50px");
     });
 
+    if (this.filterAllColumns == false){
+      setTimeout(()=> {
+          $('tbody>tr:first').remove();
+      });
+    }
+
   }
 
   public onCellClick(data: any): any {
     console.log(data);
 
     var selectedRow = data.row;
+    var Id: number;
 
-      // If Button View
+      // If Button Edit
       if (data.column == "EditButton") {
-        this.router.navigate(['/' + this.controllerPath + '/add']);
+        if (selectedRow.Id2 != undefined){
+          Id = selectedRow.Id2;
+        } else {
+          Id = selectedRow.Id;
+        }
+
+        this.router.navigate(['/' + this.controllerPath + '/edit', Id]);
+
+      } else if (data.column == "DeleteButton") {
+        if (selectedRow.Id2 != undefined){
+          Id = selectedRow.Id2;
+        } else {
+          Id = selectedRow.Id;
+        }
+
+        this.router.navigate(['/' + this.controllerPath + '/delete', Id]);
+
       }
   }
 }

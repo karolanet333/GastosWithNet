@@ -13,8 +13,18 @@
 
             <form (submit)="onSubmit()">
               <div class="form-group">
-                <label for="rubro">Rubro Banco</label>
-                <input type="text" class="form-control" name="rubro" [(ngModel)]="item.rubro">
+                <label for="Rubro">Rubro Banco</label>
+                <input type="text" class="form-control" name="Rubro" [(ngModel)]="item.Rubro">
+              </div>
+              <div class="form-group">
+                <label for="Signo">Signo</label>
+
+                <select name="Signo" id="" class="form-control" [(ngModel)]="item.Signo">
+                  <option value="+">+</option>
+                  <option value="-">-</option>
+                </select>
+
+                <!--<input type="text" class="form-control" name="Signo" [(ngModel)]="item.Signo">-->
               </div>
               <div class="form-group">
                 <button class="btn btn-success" type="submit">Aceptar</button>

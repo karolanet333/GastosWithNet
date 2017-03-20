@@ -1,3 +1,5 @@
+import { EventBrokerService } from './event-broker/event-broker.service';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +17,7 @@ import { APP_ROUTES } from "app/app.routing";
 import { MenuComponent } from './menu/menu.component';
 import { RubrosBancoAddComponent } from './rubros-banco/rubros-banco-add/rubros-banco-add.component';
 import { RubrosBancoEditComponent } from './rubros-banco/rubros-banco-edit/rubros-banco-edit.component';
+import { RubrosBancoDeleteComponent } from './rubros-banco/rubros-banco-delete/rubros-banco-delete.component';
 
 import { PaginationModule } from 'ng2-bootstrap';
 import { TabsModule } from 'ng2-bootstrap';
@@ -50,6 +53,7 @@ export function HttpLoaderFactory(http: Http) {
     MenuComponent,
     RubrosBancoAddComponent,
     RubrosBancoEditComponent,
+    RubrosBancoDeleteComponent,
     Ng2TableDemoComponent 
   ],
   imports: [
@@ -68,7 +72,8 @@ export function HttpLoaderFactory(http: Http) {
     Ng2TableModule,
   ],
   providers: [
-    ConfigService
+    ConfigService,
+    EventBrokerService
   ],
   bootstrap: [AppComponent]
 })

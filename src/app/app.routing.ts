@@ -1,3 +1,4 @@
+import { RubrosBancoDeleteComponent } from './rubros-banco/rubros-banco-delete/rubros-banco-delete.component';
 import { RubrosBancoEditComponent } from './rubros-banco/rubros-banco-edit/rubros-banco-edit.component';
 import { RubrosBancoAddComponent } from './rubros-banco/rubros-banco-add/rubros-banco-add.component';
 import { Routes } from '@angular/router';
@@ -10,7 +11,8 @@ import { ResumenComponent } from "app/resumen/resumen.component";
 export const APP_ROUTES: Routes = [
     {path: 'rubros-banco', component: RubrosBancoComponent, children:[
         {path: 'add', component: RubrosBancoAddComponent},
-        {path: 'edit', component: RubrosBancoEditComponent}
+        {path: 'edit/:Id', component: RubrosBancoEditComponent},
+        {path: 'delete/:Id', component: RubrosBancoDeleteComponent}
     ]},
     {path: 'rubros-efectivo', component: RubrosEfectivoComponent},
     {path: 'movs-banco', component: MovsBancoComponent},

@@ -1,3 +1,4 @@
+import { EventBrokerService } from './../../event-broker/event-broker.service';
 import { RubroBancoService } from './../../services/rubro-banco.service';
 import { RubroBanco } from './../../model/rubro-banco';
 import { Component, OnInit } from '@angular/core';
@@ -15,7 +16,10 @@ export class RubrosBancoAddComponent implements OnInit {
   item: RubroBanco = new RubroBanco(0, '');
   error;
 
-  constructor(private service: RubroBancoService, private router: Router) { 
+  constructor(
+    private service: RubroBancoService, 
+    private router: Router,
+    private _eventBroker: EventBrokerService) { 
   }
 
   ngOnInit() {
@@ -30,6 +34,7 @@ export class RubrosBancoAddComponent implements OnInit {
       data => {
         this.item = data
         console.log(data)
+        this._eventBroker.emit<string>("loadData", ""); 
       },
       error => {
         this.error = error

@@ -6,7 +6,7 @@
   {{ 'RUBROS_BANCO.TITLE' | translate }}
 </h3>
 
-
+<!--
 <table class="table">
   <tr *ngFor="let rubroBanco of rubrosBanco$ | async">
     <td>{{rubroBanco.Rubro}}</td>
@@ -14,9 +14,16 @@
     <td class="app-xs"><button class="btn btn-danger btn-xs">{{'GENERAL.DELETE' | translate}}</button></td>
   </tr>
 </table>
+-->
 
-<div *ngIf="rubrosBanco">
-  <app-ng2-table-demo [columns]="columns" [data]="rubrosBanco" controllerPath="rubros-banco"></app-ng2-table-demo>
+<div *ngIf="rubrosBancoGrilla">
+  <app-ng2-table-demo 
+    [columns]="columns" 
+    [data]="rubrosBancoGrilla" 
+    [dataOrig]="rubrosBanco"
+    controllerPath="rubros-banco"
+    [filterAllColumns] = false
+  ></app-ng2-table-demo>
 </div>
 
 

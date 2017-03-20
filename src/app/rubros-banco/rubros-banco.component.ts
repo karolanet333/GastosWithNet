@@ -1,10 +1,12 @@
+import { EventBrokerService } from './../event-broker/event-broker.service';
 import {TranslateService} from '@ngx-translate/core';
 import { Observable } from 'rxjs/Rx';
 import { RubroBancoService } from './../services/rubro-banco.service';
 import { RubroBanco } from './../model/rubro-banco';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
-
+import { IEventListener } from "../event-broker/event-broker.service"
+import * as _ from "lodash";
 declare var  $: any;
 
 @Component({
@@ -23,10 +25,12 @@ export class RubrosBancoComponent implements OnInit, OnDestroy {
   ];
 
   rubrosBanco: Array<any>;
+  rubrosBancoGrilla: Array<any>;
   rubrosBanco$: Observable<Array<RubroBanco>>;
   dataSubscrip: Subscription;
   editTextSubscrip: Subscription;
   deleteTextSubscrip: Subscription;
+  private _myEventListener: IEventListener;
 
   //signalR connection reference
   //private connection: SignalR;
@@ -34,15 +38,33 @@ export class RubrosBancoComponent implements OnInit, OnDestroy {
   //signalR proxy reference
   //private proxy: SignalR.Hub.Proxy;
 
-  constructor(private translate: TranslateService, private rubroBancoService: RubroBancoService) {
+  constructor(
+        private translate: TranslateService, 
+        private rubroBancoService: RubroBancoService,
+        private _eventBroker: EventBrokerService) {
+
       let browserLang = translate.getBrowserLang();
       translate.use(browserLang.match(/en|fr|es/) ? browserLang : 'en');
       this.getAll();
 
-      this.editTextSubscrip = translate.get('GENERAL.EDIT').subscribe((editText: string) => {
-        this.deleteTextSubscrip = translate.get('GENERAL.DELETE').subscribe((deleteText: string) => {
+      this.loadData();
+
+      this._myEventListener = _eventBroker.listen<string>("loadData",(value:string)=>{
+          this.loadData();
+      });
+  }
+
+  loadData(){
+
+     this.rubrosBancoGrilla = null;
+     this.rubrosBanco = null;
+
+     this.editTextSubscrip = this.translate.get('GENERAL.EDIT').subscribe((editText: string) => {
+        this.deleteTextSubscrip = this.translate.get('GENERAL.DELETE').subscribe((deleteText: string) => {
           this.dataSubscrip = this.rubrosBanco$.subscribe(
             data => {
+              this.rubrosBanco = _.cloneDeep(data);
+
               var tmp: Array<any> = data;
               tmp.forEach(e => {
                 e.Id2 = e.Id
@@ -50,7 +72,7 @@ export class RubrosBancoComponent implements OnInit, OnDestroy {
                 e.EditButton = "<button class='btn btn-warning btn-xs edit-button'>" + editText + "</button>";
                 e.DeleteButton = "<button class='btn btn-danger btn-xs delete-button'>" + deleteText + "</button>";
               });
-              this.rubrosBanco = tmp;
+              this.rubrosBancoGrilla = tmp;
             }
           );
         });

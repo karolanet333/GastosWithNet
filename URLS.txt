@@ -1,0 +1,3 @@
+EventBrokerService:
+http://stackoverflow.com/questions/38393494/how-to-emit-event-in-router-outlet-in-angular2
+
